@@ -1,0 +1,13 @@
+node_modules/
+config/config.env
+.env
+uploads/
+*.log
+event.html
+event_uploads.html
+eventsingle.html
+razorpaytest.html
+test.html
+test-cloudinary.js
+test-convention.html
+update.html
