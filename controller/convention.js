@@ -216,22 +216,16 @@ export async function GenerateOtp(req, res) {
   try {
     const { email } = req.body;
 
-    if (!email) {
-      return res.status(400).json({ error: "Email is required" });
-    }
-
     const { otp } = await generateOTP(email);
 
-    // ⭐ SEND EMAIL USING RESEND (works on Render)
-    await resend.emails.send({
-      from: "Convention App <no-reply@yourdomain.com>",
+    await sendEmail({
       to: email,
       subject: "Your OTP Code",
       html: `
-        <h1>Hello!</h1>
-        <p>Your One-Time Password is:</p>
+        <h1>Hello ${email}</h1>
+        <p>Your One-Time Password (OTP) is:</p>
         <h2 style="color:blue;">${otp}</h2>
-        <p>This OTP is valid for 2 minutes.</p>
+        <p>This OTP is valid for 2 minutes. Please do not share it with anyone.</p>
       `
     });
 
@@ -241,13 +235,14 @@ export async function GenerateOtp(req, res) {
     });
 
   } catch (error) {
-    console.error("OTP SEND ERROR:", error);
+    console.error("OTP ERROR:", error);
     res.status(500).json({
-      error: "Failed to generate OTP",
+      error: "failed to generate OTP",
       message: error.message
     });
   }
 }
+
 
 // -------------------------------------------------------------
 // LOGIN (UNCHANGED)
