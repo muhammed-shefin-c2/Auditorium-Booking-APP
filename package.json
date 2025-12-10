@@ -27,7 +27,7 @@
     "razorpay": "^2.9.6",
     "twilio": "^5.9.0",
 
-    "resend": "^3.0.0"   // ⭐ Added for email sending on Render
+    "resend": "^3.0.0" 
   },
 
   "devDependencies": {
