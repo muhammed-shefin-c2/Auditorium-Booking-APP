@@ -3,6 +3,8 @@ import { findbyId } from "../repositories/convention.js";
 import { createOrder, verifySignature } from "../utils/razorpay.js";
 import { Convention } from "../models/convention.js";
 import { sendOrderConfirmation, sendSMS } from "../utils/whatsapp.js";
+import { sendEmail } from "../utils/mailer.js";
+
 
 // ⭐ NEW IMPORT FOR RESEND (Solution 1)
 import { Resend } from "resend";
