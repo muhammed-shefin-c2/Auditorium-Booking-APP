@@ -2,6 +2,7 @@
 import { generateOTP, signUp , Login, getAllEvent, getAllBookingsOnly_, getSingleEvent_, searchEvent_, updateEventService} from "../services/event.js";
 
 import { Event } from "../models/event.js";
+import { sendEmail } from "../utils/mailer.js";
 
 
 export async function SignUp(req, res) {
@@ -209,17 +210,41 @@ export async function UpdateEvent(req, res) {
 
 
 
-export async function GenerateOtp(req, res, next) {
-  try{
+export async function GenerateOtp(req, res) {
+  try {
     const { email } = req.body;
 
-    const {otp} = await generateOTP(email);
+    // Generate the OTP
+    const { otp } = await generateOTP(email);
 
-    res.status(200).json({message: "OTP sent successfully", newotp: otp});
+    // Send via RESEND email service
+    await sendEmail({
+      to: email,
+      subject: "Your Eventia Login OTP",
+      html: `
+        <h1>Hello, ${email}</h1>
+        <p>Your One-Time Password (OTP) is:</p>
+        <h2 style="color:#4f46e5;">${otp}</h2>
+        <p>This OTP is valid for 2 minutes. Please do not share it with anyone.</p>
+      `
+    });
+
+    // Success Response
+    res.status(200).json({
+      message: "OTP sent successfully",
+      newotp: otp
+    });
+
   } catch (error) {
-    res.status(500).json({error: "failed to generate OTP", message: error.message});
+    console.error("OTP ERROR:", error);
+
+    res.status(500).json({
+      error: "failed to generate OTP",
+      message: error.message
+    });
   }
-};
+}
+
 
 export async function Logins(req, res, next) {
   try{
