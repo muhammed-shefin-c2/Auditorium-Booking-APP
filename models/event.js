@@ -22,12 +22,15 @@ const image_Schema = new mongoose.Schema({
 const rating_schema = new mongoose.Schema({
   star: {
     required: false,
-    type: Number
+    type: Number,
+    min: 1,
+    max: 5
   },
   feedback_description: {
     required: false,
-    type: String
-  }
+    type: String,
+    maxlength: [300, "Feedback cannot exceed 300 characters"],
+  },
 });
 
 const contact_schema = new mongoose.Schema({
