@@ -491,6 +491,57 @@ export async function SearchConvention(req, res) {
 }
 
 
+export const AddReview = async (req, res) => {
+  try {
+    const { star, feedback_description } = req.body;
+    const { id } = req.params;
+
+    // Manual validation (extra safety)
+    if (star < 1 || star > 5) {
+      return res.status(400).json({
+        success: false,
+        message: "Star must be between 1 and 5"
+      });
+    }
+
+    if (feedback_description.split(/\s+/).length > 50) {
+      return res.status(400).json({
+        success: false,
+        message: "Feedback must be maximum 50 words"
+      });
+    }
+
+    const convention = await Convention.findById(id);
+
+    if (!convention) {
+      return res.status(404).json({
+        success: false,
+        message: "Convention not found"
+      });
+    }
+
+    convention.rating.push({
+      star,
+      feedback_description
+    });
+
+    await convention.save();
+
+    res.status(200).json({
+      success: true,
+      message: "Review added successfully",
+      ratings: convention.rating
+    });
+
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: error.message
+    });
+  }
+};
+
+
 
 
 
