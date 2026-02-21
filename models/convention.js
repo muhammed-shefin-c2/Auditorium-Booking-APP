@@ -66,7 +66,7 @@ const contact_schema = new mongoose.Schema({
 const rating_schema = new mongoose.Schema({
   star: {
     required: false,
-    type: Number
+    type: Number,
     min: 1,
     max: 5
   },
