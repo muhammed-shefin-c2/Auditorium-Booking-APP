@@ -1,5 +1,5 @@
 import express from 'express';
-import { AdvancePaid, Cancel, FullPaid, GenerateOtp, Login, SignUp, total, count, book, VerifyPayment, checkDateTime, GetAllConvetion, GetSingleConvention, SearchConvention, UpdateConvention } from '../controller/convention.js';
+import { AdvancePaid, Cancel, FullPaid, GenerateOtp, Login, SignUp, total, count, book, VerifyPayment, checkDateTime, GetAllConvetion, GetSingleConvention, SearchConvention, UpdateConvention, AddReview } from '../controller/convention.js';
 import { conventionUploads } from '../utils/multer.js';
 
 
@@ -58,5 +58,6 @@ router.route('/profile/booking/check').post(checkDateTime);
 router.route('/profile/getAllConvention').get(GetAllConvetion);
 router.get("/profile/getSingleConvention/:id", GetSingleConvention);
 router.get("/profile/search", SearchConvention);
+router.post("/profile/:id/add-review", AddReview);
 
 export default router;
