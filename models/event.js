@@ -20,6 +20,10 @@ const image_Schema = new mongoose.Schema({
 });
 
 const rating_schema = new mongoose.Schema({
+  name: {
+    required: false,
+    type: String,
+  },
   star: {
     required: false,
     type: Number,
