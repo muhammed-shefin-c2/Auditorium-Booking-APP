@@ -1,5 +1,5 @@
 import express from 'express';
-import { GenerateOtp,  GetAllEvents, Logins, SignUp , GetAllBookingsOnly, GetSingleEvent, SearchEvent, UpdateEvent} from '../controller/event.js';
+import { GenerateOtp,  GetAllEvents, Logins, SignUp , GetAllBookingsOnly, GetSingleEvent, SearchEvent, UpdateEvent, AddEventReview, GetEventReview} from '../controller/event.js';
 import { conventionUploads } from '../utils/multer.js';
 
 
@@ -48,6 +48,8 @@ router.route('/profiles/getAllEvent').get(GetAllEvents);
 router.get("/profile/all-bookings", GetAllBookingsOnly);
 router.get("/single/:id", GetSingleEvent);
 router.get("/search", SearchEvent);
+router.post("/profile/:id/add-review", AddEventReview);
+router.get("/profile/:id/review", GetEventReview);
 
 
 export default router;
