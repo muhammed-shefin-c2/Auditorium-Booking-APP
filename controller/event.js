@@ -341,3 +341,73 @@ export async function SearchEvent(req, res) {
   }
 }
 
+
+// POST → Add / Update Review
+export const AddEventReview = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { star, feedback_description } = req.body;
+
+    if (star < 1 || star > 5) {
+      return res.status(400).json({
+        success: false,
+        message: "Star must be between 1 and 5"
+      });
+    }
+
+    const event = await Event.findById(id);
+
+    if (!event) {
+      return res.status(404).json({
+        success: false,
+        message: "Event not found"
+      });
+    }
+
+    event.rating = {
+      star,
+      feedback_description
+    };
+
+    await event.save();
+
+    res.status(200).json({
+      success: true,
+      message: "Review added successfully",
+      rating: event.rating
+    });
+
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: error.message
+    });
+  }
+};
+
+// GET → Fetch Review
+export const GetEventReview = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const event = await Event.findById(id).select("rating");
+
+    if (!event) {
+      return res.status(404).json({
+        success: false,
+        message: "Event not found"
+      });
+    }
+
+    res.status(200).json({
+      success: true,
+      rating: event.rating
+    });
+
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: error.message
+    });
+  }
+};
