@@ -73,12 +73,7 @@ const rating_schema = new mongoose.Schema({
   feedback_description: {
     required: false,
     type: String,
-    validate: {
-      validator: function (value){
-        return value.split(/\s+/).lenght <= 50;
-      },
-      message: "Feedback must be maximum 50 words"
-    }
+    maxlength: [300, "Feedback cannot exceed 300 characters"],
   },
 });
 
