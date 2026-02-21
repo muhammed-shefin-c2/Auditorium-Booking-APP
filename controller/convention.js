@@ -493,7 +493,7 @@ export async function SearchConvention(req, res) {
 
 export const AddReview = async (req, res) => {
   try {
-    const { star, feedback_description } = req.body;
+    const { name, star, feedback_description } = req.body;
     const { id } = req.params;
 
     // Manual validation (extra safety)
