@@ -73,7 +73,7 @@ const event_schema = new mongoose.Schema({
     type: String
   },
   contact: contact_schema,
-  rating: rating_schema
+  rating: [rating_schema]
 });
 
 export const Event = mongoose.model('event', event_schema);
