@@ -1,5 +1,5 @@
 import express from 'express';
-import { AdvancePaid, Cancel, FullPaid, GenerateOtp, Login, SignUp, total, count, book, VerifyPayment, checkDateTime, GetAllConvetion, GetSingleConvention, SearchConvention, UpdateConvention, AddReview } from '../controller/convention.js';
+import { AdvancePaid, Cancel, FullPaid, GenerateOtp, Login, SignUp, total, count, book, VerifyPayment, checkDateTime, GetAllConvetion, GetSingleConvention, SearchConvention, UpdateConvention, AddReview ,  GetReviews} from '../controller/convention.js';
 import { conventionUploads } from '../utils/multer.js';
 
 
