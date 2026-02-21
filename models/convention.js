@@ -67,11 +67,19 @@ const rating_schema = new mongoose.Schema({
   star: {
     required: false,
     type: Number
+    min: 1,
+    max: 5
   },
   feedback_description: {
     required: false,
-    type: String
-  }
+    type: String,
+    validate: {
+      validator: function (value){
+        return value.split(/\s+/).lenght <= 50;
+      },
+      message: "Feedback must be maximum 50 words"
+    }
+  },
 });
 
 const booking_schema = new mongoose.Schema({
