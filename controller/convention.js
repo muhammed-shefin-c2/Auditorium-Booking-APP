@@ -521,6 +521,7 @@ export const AddReview = async (req, res) => {
     }
 
     convention.rating.push({
+      name,
       star,
       feedback_description
     });
