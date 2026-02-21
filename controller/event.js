@@ -346,7 +346,7 @@ export async function SearchEvent(req, res) {
 export const AddEventReview = async (req, res) => {
   try {
     const { id } = req.params;
-    const { star, feedback_description } = req.body;
+    const { name, star, feedback_description } = req.body;
 
     if (star < 1 || star > 5) {
       return res.status(400).json({
@@ -366,6 +366,7 @@ export const AddEventReview = async (req, res) => {
 
     // ✅ ADD to array instead of replacing
     event.rating.push({
+      name,
       star,
       feedback_description
     });
