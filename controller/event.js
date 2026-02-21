@@ -364,16 +364,18 @@ export const AddEventReview = async (req, res) => {
       });
     }
 
-    event.rating = {
+    // ✅ ADD to array instead of replacing
+    event.rating.push({
       star,
       feedback_description
-    };
+    });
 
     await event.save();
 
     res.status(200).json({
       success: true,
       message: "Review added successfully",
+      total_reviews: event.rating.length,
       rating: event.rating
     });
 
