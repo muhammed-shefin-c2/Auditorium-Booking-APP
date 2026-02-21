@@ -59,5 +59,6 @@ router.route('/profile/getAllConvention').get(GetAllConvetion);
 router.get("/profile/getSingleConvention/:id", GetSingleConvention);
 router.get("/profile/search", SearchConvention);
 router.post("/profile/:id/add-review", AddReview);
+router.get("/profile/:id/reviews", GetReviews);
 
 export default router;
