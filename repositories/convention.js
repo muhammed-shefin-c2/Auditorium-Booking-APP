@@ -36,21 +36,25 @@ export async function getPricePerHour(id) {
 };
 
 export async function findProfileAndUpdateOTP(email, otp, expiresIn) {
-  return await Convention.findOneAndUpdate(
-    { email },
-    { $set: { 
-      otp: {
-        email,
-        otp,
-        expiresIn,
-        used: false,
-        createdAt: new Date()
-      }
-    } 
-  },
-    { new: true, upsert: true}
-  )
-};
+
+  const profile = await Event.findOne({ email });
+
+  if (!profile) {
+    throw new Error("Account not found. Please signup first.");
+  }
+
+  profile.otp = {
+    email,
+    otp,
+    expiresIn,
+    used: false,
+    createdAt: new Date()
+  };
+
+  await profile.save();
+
+  return profile;
+}
 
 export async function Advance(email) {
   return Convention.aggregate([
