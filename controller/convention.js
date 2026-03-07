@@ -67,6 +67,8 @@ export async function SignUp(req, res) {
         parking_lot: getField(req.body, "size[parking_lot]", ["size", "parking_lot"]),
       },
 
+      gst_number: getField(req.body, "gst_number", ["gst_number"]) || "",
+
       bank: {
         account_holder_name: getField(req.body, "bank[account_holder_name]", ["bank", "account_holder_name"]),
         account_number: getField(req.body, "bank[account_number]", ["bank", "account_number"]),
@@ -101,6 +103,18 @@ export async function SignUp(req, res) {
     if (!profileDetails.image || !profileDetails.image.image1) {
       console.log("❌ image1 missing");
       return res.status(400).json({ success: false, error: "image1 is required" });
+    }
+
+    // GST VALIDATION
+    const gstRegex = /^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[1-9A-Z]{1}Z[0-9A-Z]{1}$/;
+    
+    if (!gstRegex.test(profileDetails.gst_number)) {
+      console.log("❌ Invalid GST format");
+    
+      return res.status(400).json({
+        success: false,
+        error: "Invalid GST number format"
+      });
     }
 
     console.log("🟩 Calling signUp() service...");
