@@ -21,21 +21,25 @@ export async function findProfileByEmail(email) {
 
 
 export async function findProfileAndUpdateOTP(email, otp, expiresIn) {
-  return await Event.findOneAndUpdate(
-    { email },
-    { $set: { 
-      otp: {
-        email,
-        otp,
-        expiresIn,
-        used: false,
-        createdAt: new Date()
-      }
-    } 
-  },
-    { new: true, upsert: true}
-  )
-};
+
+  const profile = await Convention.findOne({ email });
+
+  if (!profile) {
+    throw new Error("Account not found. Please signup first.");
+  }
+
+  profile.otp = {
+    email,
+    otp,
+    expiresIn,
+    used: false,
+    createdAt: new Date()
+  };
+
+  await profile.save();
+
+  return profile;
+}
 
 
 export async function GetAllEvent() {
