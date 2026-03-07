@@ -81,6 +81,21 @@ const rating_schema = new mongoose.Schema({
   },
 });
 
+const bank_schema = new mongoose.Schema({
+  account_holder_name: {
+    type: String,
+    required: true
+  },
+  account_number: {
+    type: String,
+    required: true
+  },
+  ifsc_code: {
+    type: String,
+    required: true
+  },
+});
+
 const booking_schema = new mongoose.Schema({
   name: {
     required: true,
@@ -162,6 +177,7 @@ const convention_schema = new mongoose.Schema({
     required: true,
     type: String
   },
+  bank: bank_schema,
   rating: [rating_schema],
   bookings: [booking_schema]
 });
