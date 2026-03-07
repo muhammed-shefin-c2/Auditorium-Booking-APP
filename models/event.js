@@ -58,7 +58,7 @@ const contact_schema = new mongoose.Schema({
 
 const otp_schema = new mongoose.Schema({
   email: { type: String, default: null },
-  otp: { type: String, default: 123456 },
+  otp: { type: String },
   expiresIn: { type: Number, default: 0 },
   used: { type: Boolean, default: false },
   createdAt: { type: Date, default: Date.now }
