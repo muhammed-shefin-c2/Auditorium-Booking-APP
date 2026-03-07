@@ -167,7 +167,7 @@ const convention_schema = new mongoose.Schema({
   size: size_schema,
 
   price_per_hour: {
-    reequired: true,
+    required: true,
     type: Number
   },
 
