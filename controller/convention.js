@@ -67,6 +67,12 @@ export async function SignUp(req, res) {
         parking_lot: getField(req.body, "size[parking_lot]", ["size", "parking_lot"]),
       },
 
+      bank: {
+        account_holder_name: getField(req.body, "bank[account_holder_name]", ["bank", "account_holder_name"]),
+        account_number: getField(req.body, "bank[account_number]", ["bank", "account_number"]),
+        ifsc_code: getField(req.body, "bank[ifsc_code]", ["bank", "ifsc_code"]),
+      },
+
       image: {}
     };
 
