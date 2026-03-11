@@ -344,13 +344,13 @@ export async function count(req, res) {
 // -------------------------------------------------------------
 export async function checkDateTime(req, res) {
   try{
-    const {email, date, time } = req.body;
+    const {conventionId, date} = req.body;
 
     if (!email) {
       return res.status(400).json({error: "Email is required"});
     }
 
-    const check = await checkAvailabilty(email, date, time);
+    const check = await checkAvailabilty(conventionId, date);
 
     return res.status(200).json({ Cheking: check });
   } catch (error) {
