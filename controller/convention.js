@@ -343,18 +343,29 @@ export async function count(req, res) {
 }
 // -------------------------------------------------------------
 export async function checkDateTime(req, res) {
-  try{
-    const {conventionId, date} = req.body;
+  try {
 
-    if (!email) {
-      return res.status(400).json({error: "Email is required"});
+    const { conventionId, date } = req.body;
+
+    if (!conventionId) {
+      return res.status(400).json({ error: "Convention ID is required" });
+    }
+
+    if (!date) {
+      return res.status(400).json({ error: "Date is required" });
     }
 
     const check = await checkAvailabilty(conventionId, date);
 
     return res.status(200).json({ Cheking: check });
+
   } catch (error) {
-    return res.status(500).json({ error: "failed", message: error.message});
+
+    return res.status(500).json({
+      error: "failed",
+      message: error.message
+    });
+
   }
 }
 // -------------------------------------------------------------
