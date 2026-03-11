@@ -163,49 +163,53 @@ export async function booked(id, name, contact, date, time, status, paid_status,
   return { message: "Booking initiated successfully. Proceed to pay." };
 }
 
-export async function checkAvailabilty(email, date) {
+export async function checkAvailabilty(conventionId, date) {
+
   const start = new Date(date);
-  start.setHours(0, 0, 0, 0);
+  start.setHours(0,0,0,0);
+
   const end = new Date(date);
-  end.setHours(23, 59, 59, 999);
+  end.setHours(23,59,59,999);
 
-  // Fetch all bookings for that date
-  const convention = await Convention.findOne({
-    email,
-    "bookings.date": { $gte: start, $lte: end },
-    "bookings.status": { $ne: "Cancelled" }
-  }).lean();
+  const convention = await Convention.findById(conventionId).lean();
 
-  // Initialize all slots as available
+  if (!convention) {
+    throw new Error("Convention not found");
+  }
+
   const timeSlots = {
     Forenoon: true,
     Evening: true,
     FullDay: true
   };
 
-  if (!convention) {
-    // No bookings → all slots available
-    return { availableSlots: timeSlots };
-  }
+  const bookings = convention.bookings.filter(b => {
 
-  // Loop through bookings and mark unavailable slots
-  convention.bookings.forEach(b => {
     const bookedDate = new Date(b.date);
-    bookedDate.setHours(0, 0, 0, 0);
+    bookedDate.setHours(0,0,0,0);
 
-    if (bookedDate.getTime() === start.getTime() && b.status !== "Cancelled") {
-      if (b.time === "FullDay") {
-        // FullDay blocks everything
-        timeSlots.Forenoon = false;
-        timeSlots.Evening = false;
-        timeSlots.FullDay = false;
-      } else {
-        // Individual slot booked
-        timeSlots[b.time] = false;
-        // If any slot booked, FullDay cannot be booked
-        timeSlots.FullDay = false;
-      }
+    return (
+      bookedDate.getTime() === start.getTime() &&
+      b.status !== "Cancelled"
+    );
+
+  });
+
+  bookings.forEach(b => {
+
+    if (b.time === "FullDay") {
+
+      timeSlots.Forenoon = false;
+      timeSlots.Evening = false;
+      timeSlots.FullDay = false;
+
+    } else {
+
+      timeSlots[b.time] = false;
+      timeSlots.FullDay = false;
+
     }
+
   });
 
   return { availableSlots: timeSlots };
